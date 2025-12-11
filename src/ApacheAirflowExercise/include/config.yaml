@@ -1,0 +1,31 @@
+aws_conn_id: aws_conn_id
+
+s3:
+  bucket: iva-data-warehouse-10
+  folder: AirflowPipeline/Exercise/
+
+snowflake:
+  conn_id: snowflake_conn_id
+  database: AIR_SALES_DB_EX
+  targets:
+    sales:
+      schema: cleansed_layer
+      table: sales
+    products:
+      schema: cleansed_layer
+      table: products
+    customers:
+      schema: cleansed_layer
+      table: customers
+    monthly_sales:
+      schema: presentation_layer
+      table: monthly_sales_summary
+    segmented_customers:
+      schema: business_layer
+      table: segmented_customers
+    detect_sales_anomalies:
+      schema: presentation_layer
+      table: sales_anomalies
+    forecast_sales:
+      schema: presentation_layer
+      table: forecasted_sales

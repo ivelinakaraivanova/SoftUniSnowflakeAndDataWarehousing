@@ -1,0 +1,14 @@
+aws_conn_id: aws_con_id
+
+s3:
+  bucket: iva-data-warehouse-10
+  folder: AirflowPipeline/aggregated_sales_large.csv
+
+snowflake:
+  database: AIR_SALES_DB
+  schema: PUBLIC
+  table: sales_summary
+  conn_id: snowflake_conn_id
+  warehouse: COMPUTE_WH
+  account: WWCNXND-IZ27092
+
