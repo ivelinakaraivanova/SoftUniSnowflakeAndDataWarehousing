@@ -1,9 +1,12 @@
-from logger import logging
 import pandas as pd
 import pandera.pandas as pa
 
 from pandera.pandas import DataFrameSchema, Column, Check
 
+from ..logger import setup_logger
+
+
+logging = setup_logger("validations.hourly_sales_schema")
 
 hourly_sales_trend_schema = DataFrameSchema(
     {

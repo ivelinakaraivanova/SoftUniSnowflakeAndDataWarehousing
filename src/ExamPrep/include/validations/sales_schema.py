@@ -1,9 +1,13 @@
-from logger import logging
 import pandas as pd
 import pandera.pandas as pa
 
 from pandera.pandas import DataFrameSchema, Column, Check
 from pandera.errors import SchemaErrors
+
+from ..logger import setup_logger
+
+
+logging = setup_logger("validations.sales_schema")
 
 sales_input_schema = DataFrameSchema(
     {

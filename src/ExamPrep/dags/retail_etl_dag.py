@@ -188,7 +188,7 @@ def retail_etl_dag():
             df = pd.read_csv(input_path, storage_options=storage_options)
 
             bucket = config["s3"]["bucket"]
-            folder = config["s3"]["final_analytics_folder"]
+            folder = config["s3"]["analytics_folder"]
             
             output_path = f"s3://{bucket}/{folder}/{output_file}"
             load_df_to_s3_csv(df, output_path, config["aws_conn_id"])

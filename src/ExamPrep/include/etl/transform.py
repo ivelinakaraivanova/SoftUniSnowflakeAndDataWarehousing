@@ -1,4 +1,3 @@
-import logging
 from numpy import int64
 import pandas as pd
 
@@ -9,6 +8,11 @@ from include.validations.ranking_product_schema import validate_ranking_product_
 from include.validations.revenue_concentration_schema import validate_revenue_concentration_schema
 from include.validations.sales_schema import validate_input_sales_schema, validate_output_sales_schema
 from include.validations.seasonal_sales_schema import validate_output_seasonal_sales_pattern_schema
+
+from ..logger import setup_logger
+
+
+logging = setup_logger("etl.transform")
 
 
 def transform_sales_data(sales_df: pd.DataFrame) -> pd.DataFrame:
@@ -107,7 +111,7 @@ def hourly_sales_trend(enriched_df: pd.DataFrame) -> pd.DataFrame:
     logging.info("Calculating hourly sales trend")
 
     agg = enriched_df.groupby(by=["region", "category", "hour"], as_index=False).agg(hourly_sales_trend=("total_sales", "sum"))
-    idx = agg.groupby(['region', 'category'])['hourly_total_sales'].idxmax()
+    idx = agg.groupby(['region', 'category'])['hourly_sales_trend'].idxmax()
     peaks = agg.loc[idx].reset_index(drop=True)
 
     logging.info("Hourly sales trend calculated successfully")

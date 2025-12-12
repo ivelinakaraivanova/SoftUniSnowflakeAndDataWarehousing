@@ -1,8 +1,12 @@
-from logger import logging
 import pandas as pd
 import pandera.pandas as pa
 
 from pandera.pandas import DataFrameSchema, Column, Check
+
+from ..logger import setup_logger
+
+
+logging = setup_logger("validations.seasonal_sales_schema")
 
 
 seasonal_sales_pattern_schema = DataFrameSchema(

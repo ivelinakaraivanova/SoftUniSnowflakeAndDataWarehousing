@@ -1,7 +1,11 @@
-import logging
 import pandas as pd
 
 from include.s3_utils import get_storage_options
+
+from ..logger import setup_logger
+
+
+logging = setup_logger("etl.load_data")
 
 
 def load_df_to_s3_csv(df: pd.DataFrame, s3_path: str, aws_conn_id: str) -> None:

@@ -1,9 +1,10 @@
-import logging
-import pandas as pd
-
 from airflow.exceptions import AirflowException
 from include.s3_utils import get_storage_options
 
+from ..logger import setup_logger
+
+
+logging = setup_logger("etl.extract_data")
 
 def extract_data_from_s3(bucket: str, folder: str, aws_conn_id: str, file_type: str = "csv") -> list:
     """
