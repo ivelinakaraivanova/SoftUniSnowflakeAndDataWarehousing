@@ -11,8 +11,9 @@ logging = setup_logger("validations.hourly_sales_schema")
 hourly_sales_trend_schema = DataFrameSchema(
     {
         "region": Column(str, Check(lambda s: len(s) > 0)),
+        "category": Column(str, Check(lambda s: len(s) > 0)),
         "hour": Column(int, Check.in_range(min_value=0, max_value=23)),
-        "hourly_total_sales": Column(float, Check.ge(0.0)),
+        "hourly_sales_trend": Column(float, Check.ge(0.0)),
     })  
 
 

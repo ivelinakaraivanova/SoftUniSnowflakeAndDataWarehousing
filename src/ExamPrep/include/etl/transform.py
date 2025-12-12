@@ -128,6 +128,7 @@ def product_sales_ranking_with_brand(enriched_df: pd.DataFrame) -> pd.DataFrame:
     logging.info("Calculating product sales ranking within brand")
 
     ranking_df = enriched_df.groupby(by=["brand", "product_id", "category", "rating"], as_index=False).agg(revenue=("total_sales", "sum"), sales_count=("quantity", "sum"))
+    ranking_df["revenue"] = ranking_df["revenue"].round(2)
     ranking_df["value_bucket"] = pd.qcut(
         ranking_df["revenue"],
         q=[0, 0.2, 0.8, 1.0],
@@ -167,7 +168,7 @@ def revenue_concentration(enriched_df: pd.DataFrame) -> pd.DataFrame:
     revenue_df = enriched_df.groupby(by=["region"], as_index=False).agg(region_revenue=("total_sales", "sum"))
     total_revenue = revenue_df["region_revenue"].sum()
     revenue_df["revenue_share"] = revenue_df["region_revenue"] / total_revenue
-    revenue_df["cumulative_share"] = revenue_df["region_revenue"].cumsum()
+    revenue_df["cumulative_share"] = revenue_df["revenue_share"].cumsum()
 
     logging.info("Revenue concentration analysis completed successfully")
 

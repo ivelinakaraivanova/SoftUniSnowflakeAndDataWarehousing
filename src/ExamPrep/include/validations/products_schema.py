@@ -31,11 +31,11 @@ def validate_input_products_schema(products_df: pd.DataFrame) -> pd.DataFrame:
     Validates the input products DataFrame against the predefined schema.
  
     """
-    logging.info("Validating products data schema")
+    logging.info("Validating pre-products data schema")
     
     try:
         product_input_schema.validate(products_df)
-        logging.info("Products data schema validation passed")
+        logging.info("Pre-products data schema validation passed")
         return products_df
     except SchemaErrors as e:
         logging.warning(f"Pre-products data schema validation failed: {e.failure_cases}")

@@ -87,7 +87,7 @@ def retail_etl_dag():
             products_df = pd.read_json(products_path, storage_options=storage_options)
             products_df = transform_products_data(products_df)
 
-            output_path = f"s3://{config['s3']['bucket']}/{config['s3']['output_folder']}/cleaned_products.json"
+            output_path = f"s3://{config['s3']['bucket']}/{config['s3']['output_folder']}/cleaned_products.csv"
             load_df_to_s3_csv(products_df, output_path, config["aws_conn_id"])
             
             return output_path
@@ -95,7 +95,7 @@ def retail_etl_dag():
         @task()
         def merge_data(sales_path: str, products_path: str) -> None:
             sales_df = pd.read_csv(sales_path, storage_options=storage_options)
-            products_df = pd.read_json(products_path, storage_options=storage_options)
+            products_df = pd.read_csv(products_path, storage_options=storage_options)
 
             merged_df = merge_sales_and_products(sales_df, products_df)
 
@@ -170,18 +170,18 @@ def retail_etl_dag():
         hourly_trend = run_hourly_sales_trend(enriched_path)
         product_ranking = run_product_sales_ranking(enriched_path)
         seasonal_pattern = run_seasonal_sales_pattern(enriched_path)
-        revenue_concentration = run_revenue_concentration(enriched_path)
+        revenue_conc = run_revenue_concentration(enriched_path)
 
         return {
             "hourly_trend": hourly_trend,
             "product_ranking": product_ranking,
             "seasonal_pattern": seasonal_pattern,
-            "revenue_concentration": revenue_concentration
+            "revenue_concentration": revenue_conc
         }
     
 
     @task_group(group_id="load_analytics_group")
-    def load_analytics_group(hourly_trend, product_ranking, seasonal_pattern, revenue_concentration):
+    def load_analytics_group(hourly_trend, product_ranking, seasonal_pattern, revenue_conc):
         
         @task()
         def copy_csv(input_path: str, output_file: str) -> None:
@@ -197,7 +197,7 @@ def retail_etl_dag():
         copy_csv.override(task_id="load_hourly_trend")(hourly_trend, "hourly_sales_trend.csv")
         copy_csv.override(task_id="load_product_ranking")(product_ranking, "product_sales_ranking.csv")
         copy_csv.override(task_id="load_seasonal_pattern")(seasonal_pattern, "seasonal_sales_pattern.csv")
-        copy_csv.override(task_id="load_revenue_concentration")(revenue_concentration, "revenue_concentration.csv")
+        copy_csv.override(task_id="load_revenue_concentration")(revenue_conc, "revenue_concentration.csv")
 
          
     extract_output = extract_group()
@@ -215,7 +215,7 @@ def retail_etl_dag():
         hourly_trend=analytics_output["hourly_trend"],
         product_ranking=analytics_output["product_ranking"],
         seasonal_pattern=analytics_output["seasonal_pattern"],
-        revenue_concentration=analytics_output["revenue_concentration"]
+        revenue_conc=analytics_output["revenue_concentration"]
     )
 
 retail_etl_dag()

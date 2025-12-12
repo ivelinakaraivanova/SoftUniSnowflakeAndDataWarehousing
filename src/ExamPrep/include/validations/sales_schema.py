@@ -13,10 +13,10 @@ sales_input_schema = DataFrameSchema(
     {
         "sales_id": Column(int),
         "product_id": Column(int),
-        "region": Column(str),
+        "region": Column(str, nullable=True),
         "quantity": Column(int),
         "price": Column(float),
-        "timestamp": Column(pa.DateTime),
+        "timestamp": Column(str, nullable=True),
         "total_sales": Column(float),
     })
 
@@ -37,11 +37,11 @@ def validate_input_sales_schema(sales_df: pd.DataFrame) -> pd.DataFrame:
     Validates the input sales DataFrame against the predefined schema.
  
     """
-    logging.info("Validating sales data schema")
+    logging.info("Validating pre-sales data schema")
     
     try:
         sales_input_schema.validate(sales_df)
-        logging.info("Sales data schema validation passed")
+        logging.info("Pre-sales data schema validation passed")
         return sales_df
     except SchemaErrors as e:
         logging.warning(f"Pre-sales data schema validation failed: {e.failure_cases}")
