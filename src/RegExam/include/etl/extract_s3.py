@@ -1,4 +1,4 @@
-from airflow.exceptions import AirflowException # type: ignore
+from airflow.sdk.exceptions import AirflowException
 from include.s3_utils import get_storage_options
 
 from ..logger import setup_logger

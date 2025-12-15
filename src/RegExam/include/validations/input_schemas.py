@@ -1,9 +1,7 @@
 import pandas as pd
-import pandera.pandas as pa
+import pandera as pa
 
-from pandera.pandas import DataFrameSchema, Column, Check
-
-from ..logger import setup_logger
+from pandera import DataFrameSchema, Column, Check
 
 
 sales_input_schema = DataFrameSchema(
@@ -25,6 +23,6 @@ product_input_schema = DataFrameSchema(
         "category": Column(str),
         "brand": Column(str),
         "rating": Column(float),
-        "in_stock": Column(str),
-        "launch_date": Column(str)
+        "in_stock": Column(bool),
+        "launch_date": Column(str, nullable=True)
     })

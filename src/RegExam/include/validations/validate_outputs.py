@@ -1,10 +1,7 @@
 import pandas as pd
-import pandera.pandas as pa
+import pandera as pa
 
-from pandera.pandas import DataFrameSchema, Column, Check
-from pandera.errors import SchemaErrors
-
-from output_schemas import sales_output_schema, product_output_schema
+from .output_schemas import sales_output_schema, product_output_schema
 
 from ..logger import setup_logger
 

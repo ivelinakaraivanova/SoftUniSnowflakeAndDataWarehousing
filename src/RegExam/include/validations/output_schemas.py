@@ -1,10 +1,8 @@
 import pandas as pd
-import pandera.pandas as pa
+import pandera as pa
 
-from pandera.pandas import DataFrameSchema, Column, Check
+from pandera import DataFrameSchema, Column, Check
 from pandera.errors import SchemaErrors
-
-from ..logger import setup_logger
 
 
 sales_output_schema = DataFrameSchema(
@@ -24,8 +22,8 @@ product_output_schema = DataFrameSchema(
     {
         "product_id": Column(int, Check.greater_than(0)),
         "category": Column(str, Check(lambda s: s.str[0].str.isupper())),
-        "brand": Column(str, Column(str, checks=Check.str_matches(r'^Brand[A-Z]$'))),
+        "brand": Column(str, checks=Check.str_matches(r'^Brand[A-Z]$')),
         "rating": Column(float, Check.between(0.0, 5.0)),
-        "in_stock": Column(str, Check.isin(["true", "false"])),
+        "in_stock": Column(bool),
         "launch_date": Column(pa.DateTime)
     })
