@@ -1,0 +1,6 @@
+aws_conn_id: aws_conn_id
+
+s3:
+  bucket: iva-data-warehouse-10
+  input_folder: RegExam/Inputs
+  output_folder: RegExam/Outputs

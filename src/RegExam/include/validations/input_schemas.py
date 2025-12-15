@@ -1,0 +1,30 @@
+import pandas as pd
+import pandera.pandas as pa
+
+from pandera.pandas import DataFrameSchema, Column, Check
+
+from ..logger import setup_logger
+
+
+sales_input_schema = DataFrameSchema(
+    {
+        "sales id": Column(int),
+        "proDuct Id": Column(int),
+        "Region": Column(str, nullable=True),
+        "qty": Column(int),
+        "Price": Column(float),
+        "Time stamp": Column(str, nullable=True),
+        "discount": Column(float),
+        "order_status": Column(str)
+    })
+
+
+product_input_schema = DataFrameSchema(
+    {
+        "product_id": Column(int),
+        "category": Column(str),
+        "brand": Column(str),
+        "rating": Column(float),
+        "in_stock": Column(str),
+        "launch_date": Column(str)
+    })
