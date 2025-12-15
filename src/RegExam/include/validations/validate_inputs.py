@@ -9,7 +9,7 @@ from input_schemas import sales_input_schema, product_input_schema
 from ..logger import setup_logger
 
 
-logging = setup_logger("validations.input_sales_schema")
+logging = setup_logger("validations.input_schemas")
 
 
 def validate_input_sales_schema(sales_df: pd.DataFrame) -> pd.DataFrame:
@@ -27,8 +27,6 @@ def validate_input_sales_schema(sales_df: pd.DataFrame) -> pd.DataFrame:
         logging.warning(f"Input sales data schema validation failed: {e.failure_cases}")
         return sales_df
     
-logging = setup_logger("validations.input_products_schema")
-
 
 def validate_input_products_schema(products_df: pd.DataFrame) -> pd.DataFrame:
     """

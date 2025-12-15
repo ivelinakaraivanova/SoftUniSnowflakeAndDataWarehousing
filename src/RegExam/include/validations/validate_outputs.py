@@ -9,7 +9,7 @@ from output_schemas import sales_output_schema, product_output_schema
 from ..logger import setup_logger
 
 
-logging = setup_logger("validations.output_sales_schema")
+logging = setup_logger("validations.output_schemas")
 
 
 def validate_output_sales_schema(sales_df: pd.DataFrame) -> pd.DataFrame:
@@ -20,9 +20,6 @@ def validate_output_sales_schema(sales_df: pd.DataFrame) -> pd.DataFrame:
     logging.info("Validating output sales data schema")
     
     return sales_output_schema.validate(sales_df)
-
-
-logging = setup_logger("validations.output_products_schema")
 
 
 def validate_output_products_schema(products_df: pd.DataFrame) -> pd.DataFrame:
