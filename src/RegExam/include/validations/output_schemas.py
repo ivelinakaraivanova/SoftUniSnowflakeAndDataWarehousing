@@ -1,8 +1,6 @@
-import pandas as pd
 import pandera as pa
 
 from pandera import DataFrameSchema, Column, Check
-from pandera.errors import SchemaErrors
 
 
 sales_output_schema = DataFrameSchema(

@@ -25,10 +25,8 @@ with open(config_path, "r") as file:
     catchup=False,
     tags=["retail_etl_dag"],
 )
-
 def retail_etl_dag():
     s3_hook, storage_options = get_storage_options(config["aws_conn_id"])
-
     
     @task_group(group_id="extract_s3")
     def extract_group():
@@ -75,10 +73,10 @@ def retail_etl_dag():
 
 
     @task_group(group_id="transform_data")
-    def transform_load_group(sales_path: str, products_path: str):
+    def transform_group(sales_path: str, products_path: str):
         
         @task()
-        def transform_load_sales(sales_path: str):
+        def transform_sales(sales_path: str):
             sales_df = pd.read_csv(sales_path, storage_options=storage_options)
             sales_df = transform_sales_data(sales_df)
 
@@ -88,7 +86,7 @@ def retail_etl_dag():
             return output_path
         
         @task()
-        def transform_load_products(products_path: str):
+        def transform_products(products_path: str):
             products_df = pd.read_json(products_path, storage_options=storage_options)
             products_df = transform_products_data(products_df)
 
@@ -97,8 +95,8 @@ def retail_etl_dag():
             
             return output_path
 
-        cleaned_sales = transform_load_sales(sales_path)
-        cleaned_products = transform_load_products(products_path)
+        cleaned_sales = transform_sales(sales_path)
+        cleaned_products = transform_products(products_path)
         
         return {
             "cleaned_sales": cleaned_sales,
@@ -111,6 +109,6 @@ def retail_etl_dag():
     sales_path = extract_output["sales_path"]
     products_path = extract_output["products_path"]
 
-    transform_load_group(sales_path, products_path)
+    transform_group(sales_path, products_path)
 
 retail_etl_dag()

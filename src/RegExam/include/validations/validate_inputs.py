@@ -1,10 +1,7 @@
 import pandas as pd
-import pandera as pa
-
 from pandera.errors import SchemaErrors
 
 from .input_schemas import sales_input_schema, product_input_schema
-
 from ..logger import setup_logger
 
 

@@ -1,7 +1,4 @@
-import pandas as pd
-import pandera as pa
-
-from pandera import DataFrameSchema, Column, Check
+from pandera import DataFrameSchema, Column
 
 
 sales_input_schema = DataFrameSchema(

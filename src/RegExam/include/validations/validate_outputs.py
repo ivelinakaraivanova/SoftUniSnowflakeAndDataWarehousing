@@ -1,8 +1,6 @@
 import pandas as pd
-import pandera as pa
 
 from .output_schemas import sales_output_schema, product_output_schema
-
 from ..logger import setup_logger
 
 

@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 from include.validations.validate_inputs import validate_input_products_schema, validate_input_sales_schema
 from include.validations.validate_outputs import validate_output_products_schema, validate_output_sales_schema
@@ -10,18 +9,15 @@ from ..logger import setup_logger
 logging = setup_logger("etl.transform")
 
 
-    # for i, df in enumerate(dfs):
-    #     if df is None or df.empty:
-    #         print(f"DataFrame at index {i} is None or empty, skipping cleaning.")
-    #         continue
-
-
-
 def transform_sales_data(sales_df: pd.DataFrame) -> pd.DataFrame:
     """
     Transforms the sales DataFrame by cleaning and formatting.
 
     """
+
+    if sales_df is None or sales_df.empty:
+        print("Sales DataFrame is None or empty, skipping cleaning.")
+        return sales_df
 
     logging.info("Cleaning sales data")
 
@@ -48,10 +44,15 @@ def transform_products_data(products_df: pd.DataFrame) -> pd.DataFrame:
 
     """
 
+    if products_df is None or products_df.empty:
+        print("Products DataFrame is None or empty, skipping cleaning.")
+        return products_df
+
     logging.info("Cleaning products data")
 
     products_df = validate_input_products_schema(products_df)
 
+    products_df = products_df.copy()
     products_df.columns = products_df.columns.str.strip().str.lower().str.replace(' ', '_')    
     products_df = products_df.dropna()
     products_df["launch_date"] = pd.to_datetime(products_df["launch_date"], format="mixed", errors="coerce")
